@@ -10,6 +10,8 @@
     color: #fff;
     text-transform: uppercase;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 10px;
 
     &:hover {
         background: #016486;
@@ -18,4 +20,39 @@
     &__single-icon {
         padding: 13px;
     }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    }
+    
+    &:active {
+        background-color: #004085;
+        transform: translateY(1px);
+    }
+}
+
+:host-context(.app-header) .app-button{
+    width: 36px;
+}
+
+:host-context(.app-info) .app-button{
+
+}
+
+:host-context(.course-card__info-actions) .app-button {
+    padding: 0px 26px;
+    height: 50px;
+}
+
+:host-context(.course-card__buttons) .app-button {
+    padding: 0px;
+    width: 61px;
+    height: 50px;
+    font-size: 22px
+}
+
+:host-context(.navigation-block) .app-button{
+    width: 80px;
+    padding: 13px 26px;
 }
