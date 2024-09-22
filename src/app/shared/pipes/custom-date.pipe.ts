@@ -12,6 +12,6 @@ export class CustomDatePipe implements PipeTransform {
         const year = value.getFullYear().toString();
         const month = value.getMonth().toString().padStart(2, '0');
         const day = value.getDate().toString().padStart(2, '0');
-        return `${day}.${month}.${year}`;
+        return `${day}.${month}.${year}.`;
     }
 }
