@@ -29,10 +29,6 @@ textarea {
   font-family: "Open Sans", sans-serif;
 }
 
-input:invalid,
-textarea:invalid {
-  border-color: $color-red;
-}
 
 label {
   font-weight: bold;
@@ -41,4 +37,9 @@ label {
 
 h2 {
   margin-bottom: 36px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
 }

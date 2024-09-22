@@ -47,3 +47,6 @@ $color-red: #FF0000;
 .text-danger {
     color: red;
 }
+
+.ng-touched.ng-invalid {
+    border-color: red;}

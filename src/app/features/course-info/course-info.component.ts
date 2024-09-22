@@ -22,18 +22,4 @@ export class CourseInfoComponent {
       return authors? authors.name : '';
     }) 
   }
-
-  getFormattedDuration(duration: number): string {
-    const hours = Math.floor(duration/60);
-    const minutes = duration % 60;
-    return `${hours}:${minutes} hours`
-  }
-
-  getFormattedDate(creationDate: string): string {
-    const date = new Date(creationDate)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = date.getMonth().toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}.${month}.${year}`
-  }
 }
