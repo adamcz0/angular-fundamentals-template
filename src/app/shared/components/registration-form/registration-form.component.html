@@ -26,11 +26,18 @@
       <div class="form__control">
         <!--Use the name `password` for the form control.-->
         <label for="password">Password</label>
+        <div class="input-wrapper">
         <input 
-          type="password" 
+          type="{{ appTogglePassword.isPasswordVisible ? 'text' : 'password' }}"
           id="password" 
           placeholder="Input text"
-          formControlName="password"/>
+          formControlName="password"
+          appTogglePassword
+          #appTogglePassword="appTogglePassword" />
+          <button type="button" (click)="appTogglePassword.toggle()" class="toggle-password-btn">
+            <fa-icon [icon]="appTogglePassword.isPasswordVisible ? 'eye' : 'eye-slash'"></fa-icon>
+          </button>
+        </div>
         <span *ngIf="(submitted || registrationForm.get('password')?.touched) && registrationForm.get('password')?.invalid" id="passwordErrorMessage" class="text-danger">Password is required.</span>
       </div>
     </div>
@@ -40,6 +47,6 @@
         buttonText="Register"
         (click)="onSubmit()"></app-button>
     </div>
-    <div>If you have an account you may <a routerLink="['/login']">Login</a></div>
+    <div>If you have an account you may <a [routerLink]="['/login']">Login</a></div>
   </div>
 </div>
