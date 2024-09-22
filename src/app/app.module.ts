@@ -12,10 +12,9 @@ import { CoursesComponent } from './features/courses/courses.component';
 import { CoursesListComponent } from './features/courses/courses-list/courses-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { TogglePasswordDirective } from './toggle-password.directive';
 
 @NgModule({
-  declarations: [AppComponent, CourseInfoComponent, CoursesComponent, CoursesListComponent, TogglePasswordDirective],
+  declarations: [AppComponent, CourseInfoComponent, CoursesComponent, CoursesListComponent],
   imports: [
     BrowserModule,
     SharedModule,

@@ -7,29 +7,3 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
-.toggle-password-btn {
-  background: none;
-  border: none;
-  right: 10px;
-  cursor: pointer;
-}
-
-.input-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.input-wrapper input {
-  padding-right: 40px;
-}
-
-.input-wrapper button {
-  position: absolute;
-  top: 18px;
-  right: 5px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: grey;
-}
