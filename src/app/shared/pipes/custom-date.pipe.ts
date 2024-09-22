@@ -10,8 +10,8 @@ export class CustomDatePipe implements PipeTransform {
             value = new Date(value);
         }
         const year = value.getFullYear().toString();
-        const month = value.getMonth().toString().padStart(2, '0');
+        const month = (value.getMonth() + 1).toString().padStart(2, '0');
         const day = value.getDate().toString().padStart(2, '0');
-        return `${day}.${month}.${year}.`;
+        return `${day}.${month}.${year}`;
     }
 }
