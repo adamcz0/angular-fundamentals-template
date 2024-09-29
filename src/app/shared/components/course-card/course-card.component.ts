@@ -1,18 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { mockedCoursesList, mockedAuthorsList } from '@app/mock';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
   styleUrls: ['./course-card.component.scss']
 })
 export class CourseCardComponent {
-  courses = mockedCoursesList;
+  @Input() course: any;
   @Input() title: string;
   @Input() description: string;
   @Input() creationDate: Date;
   @Input() duration: number;
   @Input() authors: string[];
   @Input() editable: boolean = true;
+  @Input() id: string;
   @Output() onClickShow: EventEmitter<string> = new EventEmitter();
 
   getAuthorNames(authorIds: string[]): string[] {
@@ -22,17 +24,17 @@ export class CourseCardComponent {
     }) 
   }
 
-  getFormattedDuration(duration: number): string {
-    const hours = Math.floor(duration/60);
-    const minutes = duration % 60;
-    return `${hours}:${minutes} hours`
+  constructor(private route: ActivatedRoute, private router: Router) {}
+  
+  navigateToCourseDetails(): void {
+    if (this.course && this.course.id) {
+      this.router.navigate(['/courses', this.course.id]);
+    }
   }
 
-  getFormattedDate(creationDate: string): string {
-    const date = new Date(creationDate)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = date.getMonth().toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}.${month}.${year}`
+  onEdit(): void {
+    if (this.course && this.course.id) {
+      this.router.navigate(['/courses/edit', this.course.id]);
+    }
   }
 }

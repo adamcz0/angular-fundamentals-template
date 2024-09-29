@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { DurationPipe } from 'src/app/shared/pipes/duration.pipe'
+import { Router, ActivatedRoute } from '@angular/router';
+import { mockedCoursesList } from '@app/mock';
+import { mockedAuthorsList } from '@app/mock';
 
 @Component({
   selector: 'app-course-form',
@@ -10,12 +13,18 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe'
   styleUrls: ['./course-form.component.scss']
 })
 
-export class CourseFormComponent {
-  constructor(public fb: FormBuilder, public library: FaIconLibrary) {
+export class CourseFormComponent implements OnInit {
+  constructor(
+      public fb: FormBuilder, 
+      public library: FaIconLibrary,
+      private route: ActivatedRoute,
+      private router: Router) {
     library.addIconPacks(fas);
   }
 
   submitted = false;
+  courseId: string | null = null;
+  isEditing: boolean = false;
 
   courseForm = this.fb.group({
     title: ['', [Validators.minLength(2), Validators.required]],
@@ -23,8 +32,40 @@ export class CourseFormComponent {
     author: [''],
     authors: this.fb.array([]),
     courseAuthors: this.fb.array([]),
-    duration: [[], [Validators.min(0), Validators.required]]
+    duration: [0, [Validators.min(0), Validators.required]]
   })
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.courseId = params.get('id');
+      this.isEditing = !!this.courseId;
+
+      if (this.isEditing) {
+        this.loadCourseDetails(this.courseId);
+      }
+    });
+  }
+
+  getAuthorNames(authorIds: string[]): string[] {
+    return authorIds.map(authorId => {
+      const authors = mockedAuthorsList.find(author => author.id === authorId);
+      return authors? authors.name : '';
+    }) 
+  }
+
+  loadCourseDetails(id: string | null): void {
+    if (!this.courseId) return;
+    const course = mockedCoursesList.find(c => c.id === this.courseId);
+    if (course) {
+      this.courseForm.patchValue({
+        title: course.title,
+        description: course.description,
+        duration: course.duration
+      });
+      this.courseAuthors.clear();
+      this.getAuthorNames(course.authors).forEach(author => this.courseAuthors.push(new FormControl(author)))
+    }
+  }
 
   createAuthor(): void {
     const authorControl = this.courseForm.get('author');

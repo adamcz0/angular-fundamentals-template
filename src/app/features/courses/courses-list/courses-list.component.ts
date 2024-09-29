@@ -7,10 +7,14 @@ import { mockedCoursesList } from '@app/mock';
   styleUrls: ['./courses-list.component.css']
 })
 export class CoursesListComponent {
-  @Input() courses: {}[];
+  courses = mockedCoursesList;
   @Input() editable: boolean = true;
 
   @Output() showCourse: EventEmitter<string> = new EventEmitter();
   @Output() editCourse: EventEmitter<string> = new EventEmitter();
   @Output() deleteCourse: EventEmitter<string> = new EventEmitter();
+
+  dateType(dateString: string): Date {
+    return new Date(dateString);
+  }
 }

@@ -1,12 +1,30 @@
 import { RouterModule, Routes } from '@angular/router';
-import { LoginFormComponent, RegistrationFormComponent } from './shared/components';
 import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     /* Add your code here */
-    { path: 'register', component: RegistrationFormComponent },
-    { path: 'login', component: LoginFormComponent },
-    { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { 
+        path: 'login', 
+        loadChildren: () => import('src/app/shared/components/login-form/login.module').then(m => m.LoginModule) 
+    },
+    { 
+        path: 'registration', 
+        loadChildren: () => import('src/app/shared/components/registration-form/registration.module').then(m => m.RegistrationModule) 
+    },
+    {
+        path: 'courses',
+        loadChildren: () => import('src/app/features/courses/courses-list/courses-list.module').then(m => m.CoursesModule)
+    },
+    { 
+        path: '', 
+        redirectTo: '/courses', 
+        pathMatch: 'full' 
+    },
+    { 
+        path: '**', 
+        redirectTo: '/courses', 
+        pathMatch: 'full' 
+    }
 ];
 
 @NgModule({

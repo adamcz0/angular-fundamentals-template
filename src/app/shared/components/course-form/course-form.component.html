@@ -1,5 +1,5 @@
 <!-- Replace ::text:: with your code -->
-<h2>Create / Edit Course</h2>
+<h2>{{ isEditing ? 'Edit Course' : 'Create Course' }}</h2>
 <form [formGroup]="courseForm">
   <div class="app-plate">
     <div class="course">
@@ -88,7 +88,7 @@
       </div>
       <br>
       <div class="form__action">
-        <app-button buttonText="Cancel"></app-button>
+        <app-button buttonText="Cancel" [routerLink]="['courses']"></app-button>
         <app-button buttonText="Create Course" (click)="onSubmit()"></app-button>
       </div>
     </div>
