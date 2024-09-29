@@ -6,6 +6,7 @@ import { CourseFormComponent } from '@app/shared/components';
 import { CourseInfoComponent } from '@app/features/course-info/course-info.component';
 import { CommonModule } from '@angular/common';
 import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
+import { AdminGuard } from '@app/user/guards/admin.guard';
 
 const routes: Routes = [
   { 
@@ -15,7 +16,7 @@ const routes: Routes = [
   { 
     path: 'add',
     component: CourseFormComponent,
-    canActivate: [AuthorizedGuard]
+    canActivate: [AuthorizedGuard, AdminGuard]
   },
   { 
     path: ':id', 
@@ -25,7 +26,7 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: CourseFormComponent,
-    canActivate: [AuthorizedGuard]
+    canActivate: [AuthorizedGuard, AdminGuard]
   }
 ];
 
