@@ -5,6 +5,7 @@ import { CoursesListComponent } from './courses-list.component';
 import { CourseFormComponent } from '@app/shared/components';
 import { CourseInfoComponent } from '@app/features/course-info/course-info.component';
 import { CommonModule } from '@angular/common';
+import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
 
 const routes: Routes = [
   { 
@@ -13,15 +14,18 @@ const routes: Routes = [
   },
   { 
     path: 'add',
-    component: CourseFormComponent
+    component: CourseFormComponent,
+    canActivate: [AuthorizedGuard]
   },
   { 
     path: ':id', 
-    component: CourseInfoComponent 
+    component: CourseInfoComponent,
+    canActivate: [AuthorizedGuard]
   },
   {
     path: 'edit/:id',
-    component: CourseFormComponent
+    component: CourseFormComponent,
+    canActivate: [AuthorizedGuard]
   }
 ];
 
