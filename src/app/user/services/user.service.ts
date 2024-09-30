@@ -11,7 +11,7 @@ export class UserService {
 
   getUser(): Observable<any> {
     // Add your code here
-    return this.http.get("http://localhost:4000/api/users/me").pipe(
+    return this.http.get("http://localhost:4000/users/me").pipe(
       catchError(error => {
         console.error('Error fetching data', error);
         return of(null);

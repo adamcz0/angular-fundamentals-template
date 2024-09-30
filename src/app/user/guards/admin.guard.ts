@@ -19,6 +19,6 @@ export class AdminGuard implements CanActivate {
                     return this.router.createUrlTree(['/courses']);
                 }
             })
-        )
+        );
     }
 }

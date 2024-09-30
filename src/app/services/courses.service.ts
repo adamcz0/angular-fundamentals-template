@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 interface Course {
     title: string,
@@ -44,12 +44,12 @@ export class CoursesService {
         return this.http.delete(`${this.baseCoursesUrl}/${id}`);
     }
 
-    filterCourses(value: string) {
+    filterCourses(value: string): Observable<any> {
         // Add your code here
-        return this.http.get(`${this.baseCoursesUrl}?filter=${value}`).pipe(
+        return this.http.get(`${this.baseCoursesUrl}/filter?filter=${value}`).pipe(
             catchError(error => {
                 console.error('Error filtering courses', error);
-                return [];
+                return of([]);
             })
         );
     }
