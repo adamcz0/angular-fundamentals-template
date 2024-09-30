@@ -46,7 +46,7 @@ export class CoursesService {
 
     filterCourses(value: string): Observable<any> {
         // Add your code here
-        return this.http.get(`${this.baseCoursesUrl}/filter?filter=${value}`).pipe(
+        return this.http.get(`http://localhost:4000/courses/filter?${value}`).pipe(
             catchError(error => {
                 console.error('Error filtering courses', error);
                 return of([]);

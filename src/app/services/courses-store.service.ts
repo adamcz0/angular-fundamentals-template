@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CoursesService } from './courses.service';
-import { BehaviorSubject, catchError, finalize, Observable, tap, map, subscribeOn} from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, tap, map, subscribeOn, of, switchMap} from 'rxjs';
 
 interface Course {
     title: string,
@@ -92,15 +92,16 @@ export class CoursesStoreService {
         ).subscribe();
     }
 
-    filterCourses(value: string) {
+    filterCourses(value: string): void {
         // Add your code here
         this.setLoading(true);
         this.coursesService.filterCourses(value).pipe(
-            map((response: any) => response.courses as Course[]),
+            switchMap((response: any) => {return of(response.courses as Course[]);
+            }),
             tap(courses => this.courses$$.next(courses)),
             catchError(error => {
                 console.error('Error filtering courses', error);
-                return [];
+                return of([]);
             }),
             finalize(() => this.setLoading(false))
         ).subscribe();

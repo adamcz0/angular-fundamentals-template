@@ -7,15 +7,14 @@ import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
     providedIn: 'root'
 })
 export class UserStoreService {
-
-    constructor(private http: HttpClient, private userService: UserService) {
-        this.getUser();
-    }
-
     private name$$ = new BehaviorSubject<string>('');
     private isAdmin$$ = new BehaviorSubject<boolean>(false);
     public name$: Observable<string> = this.name$$.asObservable();
     public isAdmin$: Observable<boolean> = this.isAdmin$$.asObservable();
+
+    constructor(private http: HttpClient, private userService: UserService) {
+        this.getUser();
+    }
 
     getUser() {
         // Add your code here
