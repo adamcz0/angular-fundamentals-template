@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError } from 'rxjs';
 
 interface Course {
     title: string,
@@ -45,7 +46,12 @@ export class CoursesService {
 
     filterCourses(value: string) {
         // Add your code here
-        return this.http.get(`${this.baseCoursesUrl}?filter=${value}`);
+        return this.http.get(`${this.baseCoursesUrl}?filter=${value}`).pipe(
+            catchError(error => {
+                console.error('Error filtering courses', error);
+                return [];
+            })
+        );
     }
 
     getAllAuthors() {

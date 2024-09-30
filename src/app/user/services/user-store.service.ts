@@ -32,7 +32,7 @@ export class UserStoreService {
                 this.isAdmin$$.next(false);
                 throw error;
             })
-        )
+        ).subscribe()
     }
 
     get isAdmin() {

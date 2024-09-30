@@ -15,8 +15,9 @@ export class AdminGuard implements CanActivate {
             map(isAdmin => {
                 if (isAdmin) {
                     return true;
+                } else {
+                    return this.router.createUrlTree(['/courses']);
                 }
-                return this.router.createUrlTree(['/courses']);
             })
         )
     }
