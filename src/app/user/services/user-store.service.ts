@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
+import { User } from '@app/services/userModel';
 import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 })
 export class UserStoreService {
     private name$$ = new BehaviorSubject<string>('');
-    private isAdmin$$ = new BehaviorSubject<boolean>(false);
+    private isAdmin$$ = new BehaviorSubject<boolean>(true);
     public name$: Observable<string> = this.name$$.asObservable();
     public isAdmin$: Observable<boolean> = this.isAdmin$$.asObservable();
 
@@ -16,9 +17,9 @@ export class UserStoreService {
         this.getUser();
     }
 
-    getUser() {
+    getUser(): Observable<User> {
         // Add your code here
-        this.userService.getUser().pipe(
+        return this.userService.getUser().pipe(
             map((response: any) => ({
                 name: response.name,
                 isAdmin: response.isAdmin
@@ -26,6 +27,7 @@ export class UserStoreService {
             tap(user => {
                 this.name$$.next(user.name);
                 this.isAdmin$$.next(user.isAdmin);
+                console.log('user details updated')
             }),
             catchError(error => {
                 console.error('Error loading user', error);
@@ -33,7 +35,7 @@ export class UserStoreService {
                 this.isAdmin$$.next(false);
                 throw error;
             })
-        ).subscribe()
+        )
     }
 
     get isAdmin() {

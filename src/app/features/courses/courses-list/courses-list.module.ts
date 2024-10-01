@@ -16,17 +16,17 @@ const routes: Routes = [
   { 
     path: 'add',
     component: CourseFormComponent,
-    canActivate: [AuthorizedGuard, AdminGuard]
+    //canActivate: [AuthorizedGuard, AdminGuard]
   },
   { 
     path: ':id', 
     component: CourseInfoComponent,
-    canActivate: [AuthorizedGuard]
+    //canActivate: [AuthorizedGuard]
   },
   {
     path: 'edit/:id',
     component: CourseFormComponent,
-    canActivate: [AuthorizedGuard, AdminGuard]
+    //canActivate: [AuthorizedGuard, AdminGuard]
   }
 ];
 

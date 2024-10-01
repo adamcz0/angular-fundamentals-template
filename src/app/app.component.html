@@ -3,7 +3,7 @@
     <li><a [routerLink]="['/login']">Login Form</a></li>
     <li><a [routerLink]="['/registration']">Registration Form</a></li>
     <li><a [routerLink]="['/courses']">Courses</a></li>
-    <li><a [routerLink]="['/courses/add']">Add courses</a></li>
+    <li><a *ngIf='isAdmin' [routerLink]="['/courses/add']">Add courses</a></li>
   </ul>
 </nav>
 

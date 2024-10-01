@@ -1,13 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of } from 'rxjs';
-
-interface Course {
-    title: string,
-    description: string,
-    duration: number,
-    authors: string[]
-}
+import { catchError, Observable, of, tap } from 'rxjs';
+import { Course } from './userModel';
 
 @Injectable({
     providedIn: 'root'

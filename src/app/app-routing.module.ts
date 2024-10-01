@@ -8,18 +8,18 @@ export const routes: Routes = [
     { 
         path: 'login', 
         loadChildren: () => import('src/app/shared/components/login-form/login.module').then(m => m.LoginModule),
-        canActivate: [NotAuthorizedGuard]
+       // canActivate: [NotAuthorizedGuard]
     },
     { 
         path: 'registration', 
         loadChildren: () => import('src/app/shared/components/registration-form/registration.module').then(m => m.RegistrationModule),
-        canActivate: [NotAuthorizedGuard]
+        //canActivate: [NotAuthorizedGuard]
     },
     {
         path: 'courses',
         loadChildren: () => import('src/app/features/courses/courses-list/courses-list.module').then(m => m.CoursesModule),
-        canLoad: [AuthorizedGuard],
-        canActivate: [AuthorizedGuard]
+      //  canLoad: [AuthorizedGuard],
+      //  canActivate: [AuthorizedGuard]
     },
     { 
         path: '', 

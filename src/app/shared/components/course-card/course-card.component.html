@@ -7,7 +7,7 @@
         <div class="course-card__info-text">
             <div>
               <b>Authors: </b>
-              {{getAuthorNames(authors)}}
+              <span *ngFor="let authorName of authorNames">{{authorNames}}</span>
             </div>
             <div><b>Duration: </b><span class="course-card__duration">{{duration | duration}}</span></div>
             <div><b>Created: </b><span class="course-card__date">{{creationDate | customDate}}</span></div>
@@ -17,7 +17,7 @@
                 buttonText="SHOW COURSE" 
                 (click)="navigateToCourseDetails()"
                 ></app-button>
-            <div class="course-card__buttons" *ngIf="editable">
+            <div class="course-card__buttons" *ngIf="isAdmin">
                 <app-button iconName="delete"></app-button>
                 <app-button iconName="edit" (click)="onEdit()"></app-button>
             </div>

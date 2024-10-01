@@ -6,6 +6,9 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe'
 import { Router, ActivatedRoute } from '@angular/router';
 import { mockedCoursesList } from '@app/mock';
 import { mockedAuthorsList } from '@app/mock';
+import { Course } from '@app/services/userModel';
+import { CoursesStoreService } from '@app/services/courses-store.service';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-course-form',
@@ -18,53 +21,52 @@ export class CourseFormComponent implements OnInit {
       public fb: FormBuilder, 
       public library: FaIconLibrary,
       private route: ActivatedRoute,
-      private router: Router) {
+      private router: Router,
+      private coursesStoreService: CoursesStoreService) {
     library.addIconPacks(fas);
   }
 
+  course$!: Course;
   submitted = false;
-  courseId: string | null = null;
+  courseId: string = '';
   isEditing: boolean = false;
+  authorNames: string[] = [];
 
   courseForm = this.fb.group({
     title: ['', [Validators.minLength(2), Validators.required]],
     description: ['', [Validators.minLength(2), Validators.required]],
     author: [''],
     authors: this.fb.array([]),
-    courseAuthors: this.fb.array([]),
+    courseAuthors: this.fb.array(['']),
     duration: [0, [Validators.min(0), Validators.required]]
   })
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.courseId = params.get('id');
+      this.courseId = params.get('id') || '';
       this.isEditing = !!this.courseId;
 
-      if (this.isEditing) {
-        this.loadCourseDetails(this.courseId);
+      if (this.courseId) {
+        this.coursesStoreService.getCourse(this.courseId).subscribe({
+          next: value => {
+            this.course$ = value;
+            
+            value.authors.forEach(authorId => {
+              this.coursesStoreService.getAuthorById(authorId).subscribe({
+                next: value => this.authorNames.push(value)
+              })
+            })
+          
+            this.courseForm.patchValue({
+              title: this.course$.title,
+              description: this.course$.description,
+              duration: this.course$.duration,
+              courseAuthors: this.course$.authors
+            });
+          }
+        })
       }
     });
-  }
-
-  getAuthorNames(authorIds: string[]): string[] {
-    return authorIds.map(authorId => {
-      const authors = mockedAuthorsList.find(author => author.id === authorId);
-      return authors? authors.name : '';
-    }) 
-  }
-
-  loadCourseDetails(id: string | null): void {
-    if (!this.courseId) return;
-    const course = mockedCoursesList.find(c => c.id === this.courseId);
-    if (course) {
-      this.courseForm.patchValue({
-        title: course.title,
-        description: course.description,
-        duration: course.duration
-      });
-      this.courseAuthors.clear();
-      this.getAuthorNames(course.authors).forEach(author => this.courseAuthors.push(new FormControl(author)))
-    }
   }
 
   createAuthor(): void {

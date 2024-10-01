@@ -1,41 +1,52 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { mockedCoursesList, mockedAuthorsList } from '@app/mock';
 import { ActivatedRoute } from '@angular/router';
+import { CoursesService } from '@app/services/courses.service';
+import { CoursesStoreService } from '@app/services/courses-store.service';
+import { Observable } from 'rxjs';
+import { Course } from '@app/services/userModel';
 
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
   styleUrls: ['./course-info.component.scss']
 })
-export class CourseInfoComponent {
-  // Use the names for the input `course`.
-  course: any;
-  title: string;
-  description: string;
-  id: string;
-  creationDate: Date;
-  duration: number;
-  authors: string[];
+export class CourseInfoComponent implements OnInit {
+  courseId: string = '';
+  course$!: Course;
 
-  getAuthorNames(authorIds: string[]): string[] {
-    return authorIds.map(authorId => {
-      const authors = mockedAuthorsList.find(author => author.id === authorId);
-      return authors? authors.name : '';
-    }) 
-  }
-
-  courseId: string;
-
-  constructor(private route: ActivatedRoute) {}
+  authorNames: string[] = [];
+ 
+  constructor(
+    private coursesStoreService: CoursesStoreService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.courseId = this.route.snapshot.paramMap.get('id')!;
-    this.course = mockedCoursesList.find(c=> c.id === this.courseId);
-    this.title = this.course.title;
-    this.description = this.course.description;
-    this.id = this.course.id;
-    this.creationDate = this.course.creationDate;
-    this.duration = this.course.duration;
-    this.authors = this.course.authors;
+    this.route.paramMap.subscribe(params => {
+      this.courseId = params.get('id') || '';
+      
+      if (this.courseId) {
+        this.coursesStoreService.getCourse(this.courseId).subscribe({
+          next: value => {
+            this.course$ = value;
+            value.authors.forEach(authorId => {
+              this.coursesStoreService.getAuthorById(authorId).subscribe({
+                next: value => this.authorNames.push(value)
+              })
+            })
+          }
+        })
+      }
+    });
+    
+    this.course$.authors.forEach(authorId => {
+      this.coursesStoreService.getAuthorById(authorId).subscribe({
+        next: value => this.authorNames.push(value)
+      })
+    })
+    /*this.coursesStoreService.getAuthorById(this.course$.authors[0]).subscribe({
+      next: value => this.authorNames.push(value)
+    })*/
   }
 }

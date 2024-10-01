@@ -1,14 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CoursesService } from './courses.service';
+import { Course } from './userModel';
 import { BehaviorSubject, catchError, finalize, Observable, tap, map, subscribeOn, of, switchMap} from 'rxjs';
 
-interface Course {
-    title: string,
-    description: string,
-    duration: number,
-    authors: string[]
-}
+
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +26,9 @@ export class CoursesStoreService {
         // Add your code here
         this.setLoading(true);
         this.coursesService.getAll().pipe(
-            map((response: any) => response.courses as Course[]),
+            switchMap((response: any) => {
+                return of(response.result as Course[]);
+            }),
             tap(courses => this.courses$$.next(courses)),
             catchError(error => {
                 console.error('Error loading courses', error);
@@ -41,7 +39,7 @@ export class CoursesStoreService {
         .subscribe();
     }
 
-    createCourse(course: any) { // replace 'any' with the required interface
+    createCourse(course: Course) { 
         // Add your code here
         this.setLoading(true);
         this.coursesService.createCourse(course).pipe(
@@ -54,10 +52,13 @@ export class CoursesStoreService {
         ).subscribe();
     }
 
-    getCourse(id: string) {
+    getCourse(id: string): Observable<Course> {
         // Add your code here
         this.setLoading(true);
-        this.coursesService.getCourse(id).pipe(
+        return this.coursesService.getCourse(id).pipe(
+            switchMap((response: any) => {
+                return of(response.result as Course);
+            }),
             catchError(error => {
                 console.error('Error loading course', error);
                 throw error;
@@ -66,7 +67,7 @@ export class CoursesStoreService {
         );
     }
 
-    editCourse(id: string, course: Course) { // replace 'any' with the required interface
+    editCourse(id: string, course: Course) { 
         // Add your code here
         this.setLoading(true);
         this.coursesService.editCourse(id, course).pipe(
@@ -96,7 +97,8 @@ export class CoursesStoreService {
         // Add your code here
         this.setLoading(true);
         this.coursesService.filterCourses(value).pipe(
-            switchMap((response: any) => {return of(response.courses as Course[]);
+            switchMap((response: any) => {
+                return of(response.result as Course[]);
             }),
             tap(courses => this.courses$$.next(courses)),
             catchError(error => {
@@ -107,17 +109,20 @@ export class CoursesStoreService {
         ).subscribe();
     }
 
-    getAllAuthors() {
+    getAllAuthors(): Observable<string> {
         // Add your code here
         this.setLoading(true);
-        this.coursesService.getAllAuthors().pipe(
+        return this.coursesService.getAllAuthors().pipe(
+            switchMap((response: any) => {
+                return of(response.result)
+            }),
             tap(authors => console.log('Authors: ', authors)),
             catchError(error => {
                 console.error('Error loading authors', error);
                 return [];
             }),
             finalize(() => this.setLoading(false))
-        ).subscribe();
+        );
     }
 
     createAuthor(name: string) {
@@ -133,10 +138,13 @@ export class CoursesStoreService {
         ).subscribe();
     }
 
-    getAuthorById(id: string) {
+    getAuthorById(id: string): Observable<string> {
         // Add your code here
         this.setLoading(true);
-        this.coursesService.getAuthorById(id).pipe(
+        return this.coursesService.getAuthorById(id).pipe(
+            switchMap((response: any) => {
+                return of(response.result.name as string)
+            }),
             catchError(error => {
                 console.error('Error creating author', error);
                 throw error;

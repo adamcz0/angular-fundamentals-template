@@ -1,12 +1,12 @@
 <app-course-card
-    *ngFor="let course of courses"
+    *ngFor="let course of courses$ | async"
     [title]="course.title"
     [description]="course.description"
     [authors]="course.authors"
     [duration]="course.duration"
     [creationDate]="dateType(course.creationDate)"
-    [editable]="true"
     [course]="course"
     ></app-course-card>
+
 
 
