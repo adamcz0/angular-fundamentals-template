@@ -16,7 +16,7 @@ export class CourseCardComponent implements OnInit {
   @Input() authors: string[];
   @Input() editable: boolean = true;
   @Input() id: string;
-  @Input() isAdmin: boolean = false;
+  @Input() isAdmin: boolean = true;
   @Output() onClickShow: EventEmitter<string> = new EventEmitter();
 
   authorNames: string[] = [];

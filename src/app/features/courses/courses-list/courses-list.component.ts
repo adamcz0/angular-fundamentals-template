@@ -22,12 +22,10 @@ export class CoursesListComponent implements OnInit {
     this.coursesStoreService.getAll();
   }
 
-/*
 
-  @Input() editable: boolean = true;
   @Output() showCourse: EventEmitter<string> = new EventEmitter();
   @Output() editCourse: EventEmitter<string> = new EventEmitter();
-  @Output() deleteCourse: EventEmitter<string> = new EventEmitter();*/
+  @Output() deleteCourse: EventEmitter<string> = new EventEmitter();
 
   dateType(date: string): Date {
     return new Date(date);
