@@ -4,9 +4,18 @@ import * as CoursesActions from './courses.actions'
 
 export const coursesFeatureKey = 'courses';
 
+const defaultCourse: Course = {
+    id: '',
+    title: '',
+    description: '',
+    duration: 0,
+    creationDate: '',
+    authors: []
+  };
+
 export interface CoursesState {
-    allCourses: Course[] | null,
-    course: Course | null,
+    allCourses: Course[],
+    course: Course,
     isAllCoursesLoading: boolean,
     isSingleCourseLoading: boolean,
     isSearchState: boolean,
@@ -14,8 +23,8 @@ export interface CoursesState {
 }
 
 export const initialState: CoursesState = {
-    allCourses: null,
-    course: null,
+    allCourses: [],
+    course: defaultCourse,
     isAllCoursesLoading: false,
     isSingleCourseLoading: false,
     isSearchState: false,

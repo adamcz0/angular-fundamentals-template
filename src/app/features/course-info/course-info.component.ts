@@ -5,6 +5,7 @@ import { CoursesService } from '@app/services/courses.service';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { Observable } from 'rxjs';
 import { Course } from '@app/services/userModel';
+import {CoursesStateFacade} from 'src/app/store/courses/courses.facade'
 
 @Component({
   selector: 'app-course-info',
@@ -13,13 +14,14 @@ import { Course } from '@app/services/userModel';
 })
 export class CourseInfoComponent implements OnInit {
   courseId: string = '';
-  course$!: Course;
+  course$!: Observable<Course>;
 
   authorNames: string[] = [];
  
   constructor(
     private coursesStoreService: CoursesStoreService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private coursesStateFacade: CoursesStateFacade
   ) {}
 
   ngOnInit(): void {
@@ -27,26 +29,15 @@ export class CourseInfoComponent implements OnInit {
       this.courseId = params.get('id') || '';
       
       if (this.courseId) {
-        this.coursesStoreService.getCourse(this.courseId).subscribe({
-          next: value => {
-            this.course$ = value;
-            value.authors.forEach(authorId => {
-              this.coursesStoreService.getAuthorById(authorId).subscribe({
-                next: value => this.authorNames.push(value)
-              })
-            })
-          }
-        })
+        this.coursesStateFacade.getSingleCourse(this.courseId)
+        this.course$ = this.coursesStateFacade.course$;
       }
     });
     
-    this.course$.authors.forEach(authorId => {
+    /*this.course$.authors.forEach(authorId => {
       this.coursesStoreService.getAuthorById(authorId).subscribe({
         next: value => this.authorNames.push(value)
       })
-    })
-    /*this.coursesStoreService.getAuthorById(this.course$.authors[0]).subscribe({
-      next: value => this.authorNames.push(value)
     })*/
   }
 }

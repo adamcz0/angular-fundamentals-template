@@ -21,7 +21,10 @@ export class CoursesEffects {
             ofType(CoursesActions.requestAllCourses),
             exhaustMap(() => this.coursesService.getAll()
                 .pipe(
-                    map(courses => CoursesActions.requestAllCoursesSuccess({ courses })),
+                    map(response => {
+                        const courses = response.result
+                        return CoursesActions.requestAllCoursesSuccess({ courses })
+                    }),
                     catchError((error) => of(CoursesActions.requestAllCoursesFail({error: error.message})))
                 ))
         ));
@@ -43,7 +46,10 @@ export class CoursesEffects {
         this.actions$.pipe(
             ofType(CoursesActions.requestSingleCourse),
             mergeMap((action) => this.coursesService.getCourse(action.id).pipe(
-                map((course) => CoursesActions.requestSingleCourseSuccess({course})),
+                map((response) => {
+                    const course = response.result;
+                    return CoursesActions.requestSingleCourseSuccess({course})
+                }),
                 catchError((error) => of(CoursesActions.requestSingleCourseFail({error: error.message})))
             ))
         ));

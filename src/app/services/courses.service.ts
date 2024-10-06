@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { Course } from './userModel';
+import { mockedCoursesList } from '@app/mock';
 
 @Injectable({
     providedIn: 'root'

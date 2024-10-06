@@ -6,19 +6,21 @@ import { Observable } from 'rxjs';
 import { Course } from '@app/services/userModel';
 import { CourseCardComponent } from '@app/shared/components';
 
+
+
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesStateFacade {
     constructor(private store: Store) {}
 
-    isAllCoursesLoading$: Observable<boolean> = this.store.pipe(select(CoursesSelectors.isAllCoursesLoadingSelector));
-    isSingleCourseLoading$: Observable<boolean> = this.store.pipe(select(CoursesSelectors.isSingleCourseLoadingSelector));
-    isSearchingState$: Observable<boolean> = this.store.pipe(select(CoursesSelectors.isSearchingStateSelector));
-    courses$: Observable<{allCourses: Course[] | null, course: Course | null}> = this.store.pipe(select(CoursesSelectors.getCourses));
-    allCourses$: Observable<Course[] | null> = this.store.pipe(select(CoursesSelectors.getAllCourses));
-    course$: Observable<Course | null> = this.store.pipe(select(CoursesSelectors.getCourse));
-    errorMessage$: Observable<string> = this.store.pipe(select(CoursesSelectors.getErrorMessage));
+    isAllCoursesLoading$: Observable<boolean> = this.store.select(CoursesSelectors.isAllCoursesLoadingSelector);
+    isSingleCourseLoading$: Observable<boolean> = this.store.select(CoursesSelectors.isSingleCourseLoadingSelector);
+    isSearchingState$: Observable<boolean> = this.store.select(CoursesSelectors.isSearchingStateSelector);
+    courses$: Observable<{allCourses: Course[], course: Course}> = this.store.select(CoursesSelectors.getCourses);
+    allCourses$: Observable<Course[]> = this.store.select(CoursesSelectors.getAllCourses);
+    course$: Observable<Course> = this.store.select(CoursesSelectors.getCourse);
+    errorMessage$: Observable<string> = this.store.select(CoursesSelectors.getErrorMessage);
 
     getAllCourses(): void {
         this.store.dispatch(CoursesActions.requestAllCourses());

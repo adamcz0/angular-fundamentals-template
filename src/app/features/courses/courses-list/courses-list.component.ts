@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { mockedCoursesList } from '@app/mock';
 import { CoursesStoreService } from '@app/services/courses-store.service';
-import { Observable } from 'rxjs';
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
+import { Observable, of } from 'rxjs';
 import { Course } from 'src/app/services/userModel';
 
 @Component({
@@ -13,13 +14,14 @@ export class CoursesListComponent implements OnInit {
   courses$: Observable<Course[]>;
   isLoading$: Observable<boolean>;
 
-  constructor(private coursesStoreService: CoursesStoreService) {}
+  constructor(
+    private coursesStoreService: CoursesStoreService,
+    private coursesStateFacade: CoursesStateFacade) {}
 
   ngOnInit(): void {
-    this.courses$ = this.coursesStoreService.courses$;
-    this.isLoading$ = this.coursesStoreService.isLoading$;
-
-    this.coursesStoreService.getAll();
+      this.coursesStateFacade.getAllCourses();
+      this.courses$ = this.coursesStateFacade.allCourses$;
+      //this.courses$ = of(mockedCoursesList); 
   }
 
 

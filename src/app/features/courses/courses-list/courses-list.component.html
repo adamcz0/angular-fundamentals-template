@@ -1,5 +1,7 @@
-<app-course-card
-    *ngFor="let course of courses$ | async"
+<div *ngIf="courses$ | async as courses">
+    <div *ngIf="courses.length > 0; else noCourses">
+    <app-course-card
+    *ngFor="let course of courses"
     [title]="course.title"
     [description]="course.description"
     [authors]="course.authors"
@@ -7,6 +9,13 @@
     [creationDate]="dateType(course.creationDate)"
     [course]="course"
     ></app-course-card>
+</div>
+<ng-template #noCourses>
+    <p>No courses available.</p>
+</ng-template>
+</div>
+
+
 
 
 
