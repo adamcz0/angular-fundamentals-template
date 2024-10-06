@@ -21,7 +21,7 @@ export class CoursesEffects {
             ofType(CoursesActions.requestAllCourses),
             exhaustMap(() => this.coursesService.getAll()
                 .pipe(
-                    map(courses => ({type: CoursesActions.requestAllCoursesSuccess, payload: courses })),
+                    map(courses => CoursesActions.requestAllCoursesSuccess({ courses })),
                     catchError((error) => of(CoursesActions.requestAllCoursesFail({error: error.message})))
                 ))
         ));

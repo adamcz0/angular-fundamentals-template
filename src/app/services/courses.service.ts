@@ -13,7 +13,7 @@ export class CoursesService {
     private baseCoursesUrl = 'http://localhost:4000/courses';
     private baseAuthorsUrl = 'http://localhost:4000/authors';
 
-    getAll() {
+    getAll(): Observable<any> {
         // Add your code here
        return this.http.get(`${this.baseCoursesUrl}/all`)
     }
