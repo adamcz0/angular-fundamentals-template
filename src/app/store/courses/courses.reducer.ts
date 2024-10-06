@@ -15,7 +15,7 @@ const defaultCourse: Course = {
 
 export interface CoursesState {
     allCourses: Course[],
-    course: Course,
+    course: Course | null,
     isAllCoursesLoading: boolean,
     isSingleCourseLoading: boolean,
     isSearchState: boolean,

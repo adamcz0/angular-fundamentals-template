@@ -36,6 +36,7 @@ export const getCourse = createSelector(
     (state: CoursesState) => state.course
 );
 
+
 export const getErrorMessage = createSelector(
     selectCoursesState,
     (state: CoursesState) => state.errorMessage

@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CoursesComponent } from './courses.component';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
@@ -10,7 +11,10 @@ describe('CoursesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CoursesComponent ],
-      imports: [HttpClientModule, StoreModule.forRoot({})]
+      imports: [
+        HttpClientModule, 
+        StoreModule.forRoot({}), 
+        EffectsModule.forRoot({})]
     })
     .compileComponents();
 

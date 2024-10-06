@@ -17,9 +17,9 @@ export class CoursesStateFacade {
     isAllCoursesLoading$: Observable<boolean> = this.store.select(CoursesSelectors.isAllCoursesLoadingSelector);
     isSingleCourseLoading$: Observable<boolean> = this.store.select(CoursesSelectors.isSingleCourseLoadingSelector);
     isSearchingState$: Observable<boolean> = this.store.select(CoursesSelectors.isSearchingStateSelector);
-    courses$: Observable<{allCourses: Course[], course: Course}> = this.store.select(CoursesSelectors.getCourses);
+    courses$: Observable<{allCourses: Course[], course: Course | null}> = this.store.select(CoursesSelectors.getCourses);
     allCourses$: Observable<Course[]> = this.store.select(CoursesSelectors.getAllCourses);
-    course$: Observable<Course> = this.store.select(CoursesSelectors.getCourse);
+    course$: Observable<Course | null> = this.store.select(CoursesSelectors.getCourse);
     errorMessage$: Observable<string> = this.store.select(CoursesSelectors.getErrorMessage);
 
     getAllCourses(): void {

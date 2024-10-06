@@ -14,7 +14,7 @@ import {CoursesStateFacade} from 'src/app/store/courses/courses.facade'
 })
 export class CourseInfoComponent implements OnInit {
   courseId: string = '';
-  course$!: Observable<Course>;
+  course$!: Observable<Course | null>;
 
   authorNames: string[] = [];
  
@@ -29,6 +29,7 @@ export class CourseInfoComponent implements OnInit {
       this.courseId = params.get('id') || '';
       
       if (this.courseId) {
+        this.coursesStateFacade.getAllCourses();
         this.coursesStateFacade.getSingleCourse(this.courseId)
         this.course$ = this.coursesStateFacade.course$;
       }
