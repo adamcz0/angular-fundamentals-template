@@ -18,17 +18,17 @@ export class CoursesService {
        return this.http.get(`${this.baseCoursesUrl}/all`)
     }
 
-    createCourse(course: Course) { // replace 'any' with the required interface
+    createCourse(course: Course): Observable<any> { 
         // Add your code here
         return this.http.post(`${this.baseCoursesUrl}/add`, course)
     }
 
-    editCourse(id: string, course: Course) { // replace 'any' with the required interface
+    editCourse(id: string, course: Course): Observable<any> {
         // Add your code here
         return this.http.put(`${this.baseCoursesUrl}/${id}`, course);
     }
 
-    getCourse(id: string) {
+    getCourse(id: string): Observable<any> {
         // Add your code here
         return this.http.get(`${this.baseCoursesUrl}/${id}`);
     }

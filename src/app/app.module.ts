@@ -14,6 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { effects, reducers } from './store/courses';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent, CourseInfoComponent, CoursesComponent, CoursesListComponent],
@@ -22,7 +25,9 @@ import { TokenInterceptor } from './auth/interceptors/token.interceptor';
     SharedModule,
     FontAwesomeModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects)
   ],
   providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, {
     provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true
