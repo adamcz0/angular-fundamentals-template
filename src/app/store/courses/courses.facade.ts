@@ -4,7 +4,6 @@ import * as CoursesSelectors from './courses.selectors';
 import * as CoursesActions from './courses.actions';
 import { Observable } from 'rxjs';
 import { Course } from '@app/services/userModel';
-import { CourseCardComponent } from '@app/shared/components';
 
 
 

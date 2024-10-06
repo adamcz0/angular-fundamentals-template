@@ -79,7 +79,7 @@ export const coursesReducer = createReducer(
     on(CoursesActions.requestFilteredCoursesSuccess, (state, {courses}) => ({
         ...state,
         isSearchState: false,
-        courses: courses
+        allCourses: courses || []
     })),
 
     on(CoursesActions.requestFilteredCoursesFail, (state, {error}) => ({

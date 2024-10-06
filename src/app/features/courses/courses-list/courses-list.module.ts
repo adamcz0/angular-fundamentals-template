@@ -34,7 +34,7 @@ const routes: Routes = [
   imports: [
     SharedModule,
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
   ]
 })
 export class CoursesModule {}

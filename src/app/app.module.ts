@@ -15,7 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { StoreModule } from '@ngrx/store';
-import { effects, reducers } from './store/courses';
+import { coursesFeatureKey, coursesReducer, reducer } from 'src/app/store/courses/courses.reducer';
+import { CoursesEffects } from 'src/app/store/courses/courses.effects';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
@@ -26,8 +27,8 @@ import { EffectsModule } from '@ngrx/effects';
     FontAwesomeModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot(effects)
+    StoreModule.forRoot({ [coursesFeatureKey]: coursesReducer }),
+    EffectsModule.forRoot(CoursesEffects)
   ],
   providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, {
     provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true
